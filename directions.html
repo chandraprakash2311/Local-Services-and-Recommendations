@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+    <style>
+        #map {
+            height: 100vh;
+        }
+        #controls {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="controls">
+        <div id="result"></div>
+    </div>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        var map = L.map('map').setView([0, 0], 2); // Default view before location is determined
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var routingControl;
+        var userLat, userLon;
+
+        function getLatLon() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const lat = urlParams.get('lat');
+            const lon = urlParams.get('lon');
+
+            if (lat && lon) {
+                document.getElementById('result').innerHTML = `Destination Latitude: ${lat}, Longitude: ${lon}`;
+
+                var destination = L.latLng(lat, lon);
+                if (routingControl) {
+                    map.removeControl(routingControl);
+                }
+                routingControl = L.Routing.control({
+                    waypoints: [
+                        L.latLng(userLat, userLon),
+                        destination
+                    ],
+                    routeWhileDragging: true,
+                    geocoder: L.Control.Geocoder.nominatim(),
+                    createMarker: function(i, waypoint, n) {
+                        return L.marker(waypoint.latLng, {
+                            draggable: true
+                        });
+                    }
+                }).addTo(map);
+            } else {
+                document.getElementById('result').innerHTML = 'No destination coordinates provided.';
+            }
+        }
+
+        function getUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
+            } else {
+                document.getElementById('result').innerHTML = 'Geolocation is not supported by this browser.';
+            }
+        }
+
+        function showPosition(position) {
+            userLat = position.coords.latitude;
+            userLon = position.coords.longitude;
+
+            document.getElementById('result').innerHTML = `User Latitude: ${userLat}, Longitude: ${userLon}`;
+
+            L.marker([userLat, userLon]).addTo(map);
+            map.setView([userLat, userLon], 13);
+            getLatLon();
+        }
+
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    document.getElementById('result').innerHTML = 'User denied the request for Geolocation.';
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    document.getElementById('result').innerHTML = 'Location information is unavailable.';
+                    break;
+                case error.TIMEOUT:
+                    document.getElementById('result').innerHTML = 'The request to get user location timed out.';
+                    break;
+                case error.UNKNOWN_ERROR:
+                    document.getElementById('result').innerHTML = 'An unknown error occurred.';
+                    break;
+            }
+        }
+
+        getUserLocation();
+    </script>
+</body>
+</html>

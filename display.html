@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Hotels</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='display.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo">
+        </div>
+        <nav>
+            <ul class="licontainer">
+                <li class="btn btn3">About Us</li>
+                <li class="btn btn4">Contact</li>
+                <li class="btn btn3">Blog</li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="heading">Recommended Hotels</h1>
+        
+        {% if recommendations %}
+        <div id="recommendations-box">
+            <div id="recommendations" class="recommendations">
+                {% for hotel in recommendations %}
+                <div class="hotel-box">
+                    <h2 class="hotel-name">{{ loop.index }}. {{ hotel.name }}</h2>
+                    <p class="hotel-address">Address: {{ hotel.address }}</p>
+                    <p class="hotel-price">Cost per head (in rupees): {{ hotel.price }}</p>
+                    <p class="timings">Hotel Timings: {{hotel.timings}}</p>
+                    <p>Latitude: {{ hotel.latitude }}</p>
+                    <p>Longitude: {{ hotel.longitude }}</p>
+                    <button class="location-btn" onclick="getLocation('{{ hotel.latitude }}', '{{ hotel.longitude }}')">Get Location</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function getLocation(lat, lon) {
+            window.location.href = `/directions?lat=${lat}&lon=${lon}`;
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='newui.css') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="{{ url_for('static', filename='logo.webp') }}" alt="Logo">
+        </div>
+        <nav>
+            <ul class="licontainer">
+                <li class="btn btn3">About Us</li>
+                <li class="btn btn4">Contact</li>
+                <li class="btn btn3">Blog
+                </li>
+                
+              </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <div class="description">
+            <div id="content">
+                <h1>Restaurant <br><span id="recommenderfont">Recommender</span> </i></h1>
+                <p>Welcome to Restaurant Recommender! Enter your location and cuisine preferences to find the best restaurants near you.</p>
+            <h3><span id="letter">H</span>appy <span id="letter">M</span>eal!</h3></i>
+            </div>
+            
+            <div class="slider">
+                <div class="slider-nav">
+                    <button id="prev">‹</button>
+                    <button id="next">›</button>
+                </div>
+            </div>
+        </div>
+        <div class="wrapper">
+            <form action="/recommend" method="post">
+              <h1>Prompt Here !</h1>
+              <div class="input-box">
+                <input name="location" type="text" placeholder="location" required>
+                <i class='bx bxs-user'></i>
+              </div>
+              <div class="input-box">
+                <input name="cuisine" type="text" placeholder="cuisine" required>
+                <i class='bx bxs-lock-alt' ></i>
+              </div>
+              
+              <button type="submit" class="sup">COOK</button>
+              <div class="register-link">
+                <p>Want to know more? <a href="#">Click here.</a></p>
+              </div>
+            </form>
+          </div>
+
+
+    </div>
+    
+    <!-- Wave SVG -->
+    
+
+    <script>
+        let currentIndex = 0;
+        const slides = document.querySelector('.slides');
+        const totalSlides = slides.children.length;
+
+        function showSlide(index) {
+            if (index >= totalSlides - 1) {
+                currentIndex = 1;
+                slides.style.transition = 'none';
+                slides.style.transform = `translateX(0%)`;
+                setTimeout(() => {
+                    slides.style.transition = 'transform 0.5s ease-in-out';
+                    slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+                }, 50);
+            } else if (index < 0) {
+                currentIndex = totalSlides - 3;
+                slides.style.transition = 'none';
+                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+                setTimeout(() => {
+                    slides.style.transition = 'transform 0.5s ease-in-out';
+                }, 50);
+            } else {
+                currentIndex = index;
+                slides.style.transform = `translateX(${-currentIndex * 100}%)`;
+            }
+        }
+
+        document.getElementById('next').addEventListener('click', () => {
+            showSlide(currentIndex + 1);
+        });
+
+        document.getElementById('prev').addEventListener('click', () => {
+            showSlide(currentIndex - 1);
+        });
+
+        // Auto-slide every 3 seconds
+        setInterval(() => {
+            showSlide(currentIndex + 1);
+        }, 3000);
+    </script>
+</body>
+</html>

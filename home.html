@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <title>Landing Page</title>aa
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap');
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f4;
+            background-image: url(homepic.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: transparent;
+            color: white;
+        }
+        .logo{
+            font-family: "Lexend",sans-serif;
+            font-size: 31px;
+            margin-left: 5%;
+        }
+        .logo img{
+            font-size: 1.5em;
+            margin-left: 2rem;
+            height: 100px;
+            width: 200px;
+        }
+
+        .about-us-button {
+            font-family: "Lexend",sans-serif;
+            font-size: 25px;
+            background-color: transparent;
+            margin-right: 5%;
+            border: none;
+            color: white;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .3s;
+        }
+
+        .about-us-button:hover {
+            text-decoration: underline;
+        }
+
+        .main-content {
+            color: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            margin-right: 30%;
+            padding-left: 31.5%;
+            margin-top: -6rem;
+            font-family: "Lexend",sans-serif;
+            font-weight: 9000;
+            
+        }
+
+        .heading {
+            
+            font-size: 5em;
+            margin: 0;
+            margin-right: 40px;
+            font-weight: bolder;
+            margin-bottom: -1rem;
+            
+        }
+        .heading2{
+            font-size: 4em;
+            margin: 0;
+            margin-left: 26%;
+            font-weight: bolder;
+            margin-bottom: 3rem;
+            
+        }
+        .description {
+            margin: 20px 0;
+            font-size: 1.2em;
+            margin-left: 18px;
+            color: white;
+        }
+        
+        .try-now-button {
+            padding: 20px 35px;
+            background-color: transparent;
+            border: none;
+            margin-top: 7rem;
+           
+            font-size: 1.5em;
+            margin-left: 30%;
+            border-radius: 5px;
+            outline: none;
+            color: black;
+            font-family: "Lexend",monospace;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            z-index: 0;
+            border-radius: 12px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .try-now-button::after {
+        content: "";
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        padding: -10px;
+        left: 0;
+        top: 0;
+        border-radius: 10px;
+        }
+        .try-now-button::before {
+        content: "";
+        padding: 0.2rem;
+        background: linear-gradient(
+            45deg,
+            #e2b3e8, #ffffff, #ff9fd7, #ff52ba,
+            #ff8a8a, #f7b0f1, #ffaded, #ff1bca
+        );
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        background-size: 600%;
+        z-index: -1;
+        width: calc(100% + 4px);
+        height:  calc(100% + 4px);
+        filter: blur(8px);
+        animation: glowing 20s linear infinite;
+        transition: opacity .3s ease-in-out;
+        border-radius: 10px;
+        opacity: 0;
+        }
+
+        @keyframes glowing {
+        0% {background-position: 0 0;}
+        50% {background-position: 800% 0;}
+        100% {background-position: 0 0;}
+        }
+
+        
+        .try-now-button:hover::before {
+            opacity: 1;
+        }
+
+        .try-now-button:active:after {
+        background: transparent;
+        }
+
+        .try-now-button:active {
+        color: white;
+        font-weight: bold;
+}
+
+        
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">UC06</div>
+        <a href="#" class="about-us-button">About Us</a>
+    </header>
+    <div class="main-content">
+        <h1 class="heading">Recommender</h1>
+        <h1 class="heading2">System</h1><br>
+        <p class="description">Our recommender system provides personalized recommendations to enhance user experience and engagement.</p>
+        <button class="try-now-button" onclick="location.href='http://127.0.0.1:5000/'">Try Now!</button>
+    </div>
+</body>
+</html>
